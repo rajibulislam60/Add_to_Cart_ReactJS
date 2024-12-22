@@ -21,26 +21,34 @@ const App = () => {
   };
   return (
     <div className="container m-auto bg-slate-200 p-5">
-      <div className="flex gap-5 mb-3">
+      <div className="flex gap-[60px] items-center mb-3">
         <img src={data.img} alt="phone" className="border border-black" />
         <div>
-          <h2>{data.title}</h2>
-          <p>{data.details}</p>
-          <h3>${data.price}</h3>
+          <h2 className="text-[40px] font-bold">{data.title}</h2>
+          <h3 className="text-[24px] font-bold mt-2">${data.price}</h3>
+          <p className="text-gray-500 mt-5">{data.details}</p>
           <Quantity />
-          <button onClick={handleAddToCartBtn} className="border border-black">
+          <button
+            onClick={handleAddToCartBtn}
+            className="text-[20px] font-medium hover:bg-teal-400 hover:text-white duration-[0.4s] bg-white px-3 py-1"
+          >
             Add to Cart
           </button>
         </div>
       </div>
       {show && (
         <div className="bg-black text-white p-5">
-          <h2>Your Cart</h2>
-          <button onClick={handleColseCart} className="border">
+          <div className="flex justify-between items-center mb-6">
+          <h2 className="text-[24px] font-semibold">Your Products Cart</h2>
+          <button onClick={handleColseCart} className="border px-2">
             X
           </button>
+          </div>
           {items.map((item, index) => (
-            <p key={index}>{item.title}</p>
+            <div key={index} className="flex justify-between ">
+              <p>{item.title}</p>
+              <p>${item.price}</p>
+            </div>
           ))}
         </div>
       )}
