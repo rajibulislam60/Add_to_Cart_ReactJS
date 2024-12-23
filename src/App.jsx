@@ -35,6 +35,13 @@ const App = () => {
     setCount(0);
     setShow(true);
   };
+
+  const calculateTotalPrice = () => {
+    return items
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
+  };
+
   const handleColseCart = () => {
     setShow(false);
   };
@@ -81,13 +88,26 @@ const App = () => {
               X
             </button>
           </div>
+          <div className="flex justify-between text-[18px] font-semibold my-3">
+            <p>Item name</p>
+            <p>Quantity</p>
+            <p>Price</p>
+          </div>
+          <div className="w-full h-[2px] bg-white"></div>
           {items.map((item, index) => (
-            <div key={index} className="flex justify-between">
-              <p>{item.title}</p>
-              <p>{item.quantity}</p>
-              <p>${(item.price * item.quantity).toFixed(2)}</p>
+            <div key={index}>
+              <div className="flex justify-between my-2">
+                <p>{item.title}</p>
+                <p>{item.quantity}</p>
+                <p>${(item.price * item.quantity).toFixed(2)}</p>
+              </div>
+              <div className="bg-white w-full h-[1px]"></div>
             </div>
           ))}
+          <div className="flex justify-between">
+            <p className="font-bold text-[20px]">Total Price:</p>
+            <p className="font-bold text-[20px]">${calculateTotalPrice()}</p>
+          </div>
         </div>
       )}
     </div>
