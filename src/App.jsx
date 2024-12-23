@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Quantity from "./component/quantity";
 
 const App = () => {
   let data = {
@@ -12,8 +11,28 @@ const App = () => {
   let [show, setShow] = useState(false);
   let [items, setItems] = useState([]);
 
+  // =============================================
+  let [count, setCount] = useState(0);
+  const handleIncrease = () => {
+    setCount((prevCount) => ++prevCount);
+  };
+  let handleDecrease = () => {
+    if (count > 0) {
+      setCount((prevCount) => --prevCount);
+    }
+  };
+  // =======================================
+
   const handleAddToCartBtn = () => {
-    setItems((prevItem) => [...prevItem, data]);
+    if (count === 0) return;
+    setItems((prevItem) => [
+      ...prevItem,
+      {
+        ...data,
+        quantity: count,
+      },
+    ]);
+    setCount(0);
     setShow(true);
   };
   const handleColseCart = () => {
@@ -27,7 +46,25 @@ const App = () => {
           <h2 className="text-[40px] font-bold">{data.title}</h2>
           <h3 className="text-[24px] font-bold mt-2">${data.price}</h3>
           <p className="text-gray-500 mt-5">{data.details}</p>
-          <Quantity />
+          {/* ======================================= */}
+          <div className="flex mt-3 mb-3">
+            <button
+              onClick={handleDecrease}
+              className="text-[20px] font-bold border border-black px-3"
+            >
+              -
+            </button>
+            <p className="text-[20px] font-semibold border  border-y-black px-6">
+              {count}
+            </p>
+            <button
+              onClick={handleIncrease}
+              className="text-[20px] font-bold border border-black px-3"
+            >
+              +
+            </button>
+          </div>
+          {/* ================================================== */}
           <button
             onClick={handleAddToCartBtn}
             className="text-[20px] font-medium hover:bg-teal-400 hover:text-white duration-[0.4s] bg-white px-3 py-1"
@@ -39,15 +76,16 @@ const App = () => {
       {show && (
         <div className="bg-black text-white p-5">
           <div className="flex justify-between items-center mb-6">
-          <h2 className="text-[24px] font-semibold">Your Products Cart</h2>
-          <button onClick={handleColseCart} className="border px-2">
-            X
-          </button>
+            <h2 className="text-[24px] font-semibold">Your Products Cart</h2>
+            <button onClick={handleColseCart} className="border px-2">
+              X
+            </button>
           </div>
           {items.map((item, index) => (
-            <div key={index} className="flex justify-between ">
+            <div key={index} className="flex justify-between">
               <p>{item.title}</p>
-              <p>${item.price}</p>
+              <p>{item.quantity}</p>
+              <p>${(item.price * item.quantity).toFixed(2)}</p>
             </div>
           ))}
         </div>
